@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 
 import { SharedModule } from '../shared/shared.module';
+// import { PagesRoutingModule } from './pages-routing.module';
 
 import { PagesComponent } from './pages.component';
 import { ProgressComponent } from './progress/progress.component';
@@ -12,8 +13,9 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 @NgModule({
   imports: [
     CommonModule,
-    SharedModule,
     RouterModule,
+    SharedModule,
+    // PagesRoutingModule,
   ],
   declarations: [
     PagesComponent,
