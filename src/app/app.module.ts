@@ -2,26 +2,22 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
+import { AuthModule } from './auth/auth.module';
 import { PagesModule } from './pages/pages.module';
 
 import { AppComponent } from './app.component';
 
-import { LoginComponent } from './auth/login/login.component';
-import { RegisterComponent } from './auth/register/register.component';
-
-import { PageNotFoundComponent } from './pages/page-not-found/page-not-found.component';
-
+import { PageNotFoundComponent } from './errors/page-not-found/page-not-found.component';
 
 @NgModule({
   imports: [
     BrowserModule,
     AppRoutingModule,
+    AuthModule,
     PagesModule,
   ],
   declarations: [
     AppComponent,
-    LoginComponent,
-    RegisterComponent,
     PageNotFoundComponent,
   ],
   providers: [],

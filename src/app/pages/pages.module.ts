@@ -9,8 +9,6 @@ import { ProgressComponent } from './progress/progress.component';
 import { GraphOneComponent } from './graph-one/graph-one.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 
-
-
 @NgModule({
   imports: [
     CommonModule,
