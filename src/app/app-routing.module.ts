@@ -8,6 +8,11 @@ import { PageNotFoundComponent } from './errors/page-not-found/page-not-found.co
 
 const routes: Routes = [
   {
+    path: '',
+    pathMatch: 'full',
+    redirectTo: '/dashboard',
+  },
+  {
     path: '**',
     component: PageNotFoundComponent,
   }

@@ -9,11 +9,11 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 
 const routes: Routes = [
   {
-    path: '',
+    path: 'dashboard',
     component: PagesComponent,
     children: [
       {
-        path: 'dashboard',
+        path: '',
         component: DashboardComponent,
       },
       {
@@ -23,11 +23,6 @@ const routes: Routes = [
       {
         path: 'graph-one',
         component: GraphOneComponent,
-      },
-      {
-        path: '',
-        pathMatch: 'full',
-        redirectTo: 'dashboard',
       },
     ]
   },
