@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 @Component({
   selector: 'app-increaser',
@@ -8,10 +8,11 @@ import { Component } from '@angular/core';
 })
 export class IncreaserComponent {
 
-  public percent: number = 50;
+  @Input('value') public percent: number = 0;
+  @Output('value') private onPercentChange: EventEmitter<number>;
 
-  get progress(): string {
-    return `${this.percent}%`;
+  constructor() {
+    this.onPercentChange = new EventEmitter();
   }
 
   public changePercent(value: number): void {
@@ -22,6 +23,8 @@ export class IncreaserComponent {
     } else {
       this.percent += value;
     }
+    this.onPercentChange.emit(this.percent);
   }
+
 
 }
