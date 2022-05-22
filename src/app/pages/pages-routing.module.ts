@@ -17,26 +17,32 @@ const routes: Routes = [
     children: [
       {
         path: '',
+        data: { title: 'Dashboard' },
         component: DashboardComponent,
       },
       {
         path: 'account-settings',
+        data: { title: 'Account settings' },
         component: AccountSettingsComponent,
       },
       {
         path: 'progress',
+        data: { title: 'Progress' },
         component: ProgressComponent,
       },
       {
         path: 'graph-one',
+        data: { title: 'Graph' },
         component: GraphOneComponent,
       },
       {
         path: 'promises',
+        data: { title: 'Promises' },
         component: PromisesComponent,
       },
       {
         path: 'rxjs',
+        data: { title: 'Rxjs' },
         component: RxjsComponent,
       },
     ]
