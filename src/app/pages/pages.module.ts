@@ -11,6 +11,7 @@ import { PagesComponent } from './pages.component';
 import { ProgressComponent } from './progress/progress.component';
 import { GraphOneComponent } from './graph-one/graph-one.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
+import { AccountSettingsComponent } from './account-settings/account-settings.component';
 
 @NgModule({
   imports: [
@@ -26,12 +27,14 @@ import { DashboardComponent } from './dashboard/dashboard.component';
     ProgressComponent,
     GraphOneComponent,
     DashboardComponent,
+    AccountSettingsComponent,
   ],
   exports: [
-    PagesComponent,
-    ProgressComponent,
-    GraphOneComponent,
-    DashboardComponent,
+    // PagesComponent,
+    // ProgressComponent,
+    // GraphOneComponent,
+    // DashboardComponent,
+    // AccountSettingsComponent,
   ]
 })
 export class PagesModule { }
