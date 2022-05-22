@@ -8,10 +8,19 @@ import { Component, OnInit } from '@angular/core';
   ]
 })
 export class AccountSettingsComponent implements OnInit {
+  private ref: Element | null;
 
-  constructor() { }
+  constructor() {
+    this.ref = document.querySelector('#theme');
+  }
 
   ngOnInit(): void {
+  }
+
+  public changeColorTheme(theme: string) {
+    const stylePath = `./assets/css/colors/${theme}.css`;
+    this.ref?.setAttribute('href', stylePath);
+    localStorage.setItem('theme', stylePath);
   }
 
 }
