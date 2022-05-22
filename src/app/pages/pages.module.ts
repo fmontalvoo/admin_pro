@@ -13,6 +13,7 @@ import { GraphOneComponent } from './graph-one/graph-one.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { AccountSettingsComponent } from './account-settings/account-settings.component';
 import { PromisesComponent } from './promises/promises.component';
+import { RxjsComponent } from './rxjs/rxjs.component';
 
 @NgModule({
   imports: [
@@ -30,6 +31,7 @@ import { PromisesComponent } from './promises/promises.component';
     DashboardComponent,
     AccountSettingsComponent,
     PromisesComponent,
+    RxjsComponent,
   ],
   exports: [
     // PagesComponent,

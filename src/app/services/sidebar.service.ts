@@ -11,7 +11,7 @@ export class SidebarService {
       items: [
         {
           title: 'Main',
-          url: '/',
+          url: '/dashboard',
         },
         {
           title: 'Graph One',
@@ -24,6 +24,10 @@ export class SidebarService {
         {
           title: 'Promises',
           url: 'promises',
+        },
+        {
+          title: 'Rxjs',
+          url: 'rxjs',
         },
       ]
     }

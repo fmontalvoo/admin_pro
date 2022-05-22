@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
 
 import { PagesComponent } from './pages.component';
+import { RxjsComponent } from './rxjs/rxjs.component';
 import { PromisesComponent } from './promises/promises.component';
 import { ProgressComponent } from './progress/progress.component';
 import { GraphOneComponent } from './graph-one/graph-one.component';
@@ -27,12 +28,16 @@ const routes: Routes = [
         component: ProgressComponent,
       },
       {
+        path: 'graph-one',
+        component: GraphOneComponent,
+      },
+      {
         path: 'promises',
         component: PromisesComponent,
       },
       {
-        path: 'graph-one',
-        component: GraphOneComponent,
+        path: 'rxjs',
+        component: RxjsComponent,
       },
     ]
   },
