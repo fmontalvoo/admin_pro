@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 import { Observable, interval } from 'rxjs';
-import { retry, take, map } from 'rxjs/operators';
+import { retry, take, map, filter } from 'rxjs/operators';
 
 @Component({
   selector: 'app-rxjs',
@@ -44,10 +44,11 @@ export class RxjsComponent implements OnInit {
   }
 
   private returnInterval(): Observable<number> {
-    const obsersable = interval(1000)
+    const obsersable = interval(500)
       .pipe(
         take(20),
-        map(value => value + 1)
+        map(value => value + 1),
+        filter(value => (value % 2 === 0) ? true : false),
       );
     return obsersable;
   }
