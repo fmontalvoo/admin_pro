@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
-import { ActivationEnd, Router } from '@angular/router';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ActivationEnd, Data, Router } from '@angular/router';
 
 import { filter, map } from 'rxjs/operators';
+import { Observable, Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-breadcrumbs',
@@ -9,29 +10,33 @@ import { filter, map } from 'rxjs/operators';
   styles: [
   ]
 })
-export class BreadcrumbsComponent implements OnInit {
+export class BreadcrumbsComponent implements OnInit, OnDestroy {
 
   public title: string = '';
+  private titleSubscription!: Subscription;
 
   constructor(private router: Router) {
-    this.getTitle();
+    this.titleSubscription = this.getTitle()
+      .subscribe(({ title }) => {
+        this.title = title;
+        document.title = `AdminPro: ${title}`;
+      });;
   }
 
   ngOnInit(): void {
-
   }
 
-  private getTitle(): void {
-    this.router.events
+  ngOnDestroy(): void {
+    this.titleSubscription.unsubscribe();
+  }
+
+  private getTitle(): Observable<Data> {
+    return this.router.events
       .pipe(
         filter<any>(event => event instanceof ActivationEnd),
         filter((event: ActivationEnd) => event.snapshot.firstChild === null),
         map((event: ActivationEnd) => event.snapshot.data),
-      )
-      .subscribe(({ title }) => {
-        this.title = title;
-        document.title = `AdminPro: ${title}`;
-      });
+      );
   }
 
 }
