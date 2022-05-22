@@ -11,21 +11,31 @@ export class PromisesComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
-    console.log('Inicio del proceso');
-    const canresolve = true;
+    this.getUsers()
+    .then(users => console.log(users));
+    // console.log('Inicio del proceso');
+    // const canresolve = true;
+    // const promise = new Promise((resolve, reject) => {
+    //   if (canresolve) resolve('Data');
+    //   else reject('Error');
+    // });
+    // promise.then((data) => {
+    //   console.info(data);
+    // }
+    // ).catch((error) => {
+    //   console.error(error);
+    // });
+    // console.log('Fin del proceso');
+  }
+
+  public getUsers(): Promise<any> {
     const promise = new Promise((resolve, reject) => {
-      if (canresolve) resolve('Data');
-      else reject('Error');
+      fetch('https://reqres.in/api/users')
+        .then(response => response.json())
+        .then(data => resolve(data.data));
     });
 
-    promise.then((data) => {
-      console.info(data);
-    }
-    ).catch((error) => {
-      console.error(error);
-    });
-
-    console.log('Fin del proceso');
+    return promise;
   }
 
 }
