@@ -14,12 +14,16 @@ export class SidebarService {
           url: '/',
         },
         {
+          title: 'Graph One',
+          url: 'graph-one',
+        },
+        {
           title: 'Progress Bar',
           url: 'progress',
         },
         {
-          title: 'Graph One',
-          url: 'graph-one',
+          title: 'Promises',
+          url: 'promises',
         },
       ]
     }
