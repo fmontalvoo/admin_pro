@@ -29,5 +29,11 @@ export class IncreaserComponent {
     this.onPercentChange.emit(this.percent);
   }
 
+  public onChange(value: number): void {
+    if (value > 100) this.percent = 100;
+    else if (value < 0) this.percent = 0;
+    else this.percent = value;
+    this.onPercentChange.emit(this.percent);
+  }
 
 }

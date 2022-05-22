@@ -4,7 +4,8 @@
             <i class="fa fa-minus"></i>
         </button>
     </span>
-    <input type="number" min="0" max="100" class="form-control text-center" placeholder="Progreso"
+    <input type="number" min="0" max="100" [ngClass]="{'is-invalid':percent > 100 || percent < 0}"
+        class="form-control text-center" placeholder="Progreso" (ngModelChange)="onChange($event)"
         [(ngModel)]="percent">
     <span class="input-group-btn">
         <button [ngClass]="btnClass" (click)="changePercent(5)">
