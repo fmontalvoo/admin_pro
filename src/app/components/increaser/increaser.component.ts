@@ -9,9 +9,12 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 export class IncreaserComponent {
 
   @Input('value') public percent: number = 0;
+  @Input() public btnClass: string = 'btn-primary';
+
   @Output('value') private onPercentChange: EventEmitter<number>;
 
   constructor() {
+    this.btnClass = `btn ${this.btnClass}`;
     this.onPercentChange = new EventEmitter();
   }
 
