@@ -14,12 +14,32 @@ export class RxjsComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
+    // this.returnObservable()
+    //   .pipe(retry(1))
+    //   .subscribe(
+    //     value => console.log(value),
+    //     error => console.error(error),
+    //     () => console.info('Completado')
+    //   );
+
+    this.returnObservable()
+      .pipe(
+        retry(2)
+      )
+      .subscribe({
+        next: value => console.log(value),
+        error: error => console.error(error),
+        complete: () => console.info('Completado'),
+      });
+  }
+
+  private returnObservable(): Observable<number> {
     let i = -1;
-    const obsersable = new Observable(observer => {
+    const obsersable = new Observable<number>(observer => {
       const interval = setInterval(() => {
         i++;
         observer.next(i);
-        if (i === 22) {
+        if (i === 20) {
           clearInterval(interval);
           observer.complete();
         }
@@ -30,22 +50,7 @@ export class RxjsComponent implements OnInit {
         }
       }, 1000);
     });
-
-    // obsersable.subscribe(
-    //   value => console.log(value),
-    //   error => console.error(error),
-    //   () => console.info('Completado')
-    // );
-
-    obsersable
-      .pipe(
-        retry(2)
-      )
-      .subscribe({
-        next: value => console.log(value),
-        error: error => console.error(error),
-        complete: () => console.info('Completado'),
-      });
+    return obsersable;
   }
 
 }

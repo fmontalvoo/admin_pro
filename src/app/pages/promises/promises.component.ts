@@ -28,7 +28,7 @@ export class PromisesComponent implements OnInit {
     // console.log('Fin del proceso');
   }
 
-  public getUsers(): Promise<any> {
+  private getUsers(): Promise<any> {
     const promise = new Promise((resolve, reject) => {
       fetch('https://reqres.in/api/users')
         .then(response => response.json())
