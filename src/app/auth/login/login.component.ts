@@ -42,7 +42,9 @@ export class LoginComponent implements OnInit {
 
     this.as.login(email, password)
       .subscribe({
-        next: _ => this.router.navigate(['/']),
+        next: _ => {
+          this.router.navigate(['/'])
+        },
         error: e => Swal.fire('¡Algo salio mal!', e.error.message, 'error'),
         complete: () => console.info('Login completado'),
       });

@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
 import { Observable } from 'rxjs';
+import { tap } from 'rxjs/operators';
 
 import { environment } from 'src/environments/environment';
 
@@ -15,6 +16,11 @@ export class UsuarioService {
   constructor(private http: HttpClient) { }
 
   public crearUsuarios(name: string, email: string, password: string): Observable<any> {
-    return this.http.post(this.url, { name, email, password });
+    return this.http.post(this.url, { name, email, password })
+      .pipe(
+        tap((response: any) =>
+          localStorage.setItem('accessToken', response['token'])
+        )
+      );
   }
 }
