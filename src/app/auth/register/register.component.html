@@ -14,21 +14,21 @@
                     <div class="col-xs-12">
                         <input class="form-control" type="text" formControlName="name" placeholder="Name">
                         <small *ngIf="isInValid('name')" class="form-text text-danger">
-                            El nombre es obligatorio</small>
+                            *El nombre es obligatorio</small>
                     </div>
                 </div>
                 <div class="form-group ">
                     <div class="col-xs-12">
                         <input class="form-control" type="text" formControlName="email" placeholder="Email">
                         <small *ngIf="isInValid('email')" class="form-text text-danger">
-                            El email es obligatorio</small>
+                            *El email es obligatorio</small>
                     </div>
                 </div>
                 <div class="form-group ">
                     <div class="col-xs-12">
                         <input class="form-control" type="password" formControlName="password" placeholder="Password">
                         <small *ngIf="isInValid('password')" class="form-text text-danger">
-                            La contraseña es obligatoria</small>
+                            *La contraseña es obligatoria</small>
                     </div>
                 </div>
                 <div class="form-group">
@@ -36,7 +36,13 @@
                         <input class="form-control" type="password" formControlName="confirmPassword"
                             placeholder="Confirm Password">
                         <small *ngIf="isInValid('confirmPassword')" class="form-text text-danger">
-                            La contraseña de verificacion es obligatoria</small>
+                            *La contraseña de verificacion es obligatoria</small>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <small *ngIf="checkPassword()" class="form-text text-danger">
+                            *Las contraseñas no coinciden</small>
                     </div>
                 </div>
                 <div class="form-group row">
@@ -44,9 +50,9 @@
                         <div class="checkbox checkbox-primary p-t-0">
                             <input id="checkbox-signup" type="checkbox" formControlName="terms">
                             <label for="checkbox-signup"> I agree to all <a href="#">Terms</a></label>
-                            <small *ngIf="isInValid('confirmPassword') && !termsAcepted()"
+                            <small *ngIf="termsAcepted()"
                                 class="form-text text-danger">
-                                Debe aceptar los terminos y condiciones del servicio</small>
+                                *Debe aceptar los terminos y condiciones del servicio</small>
                         </div>
                     </div>
                 </div>

@@ -10,6 +10,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 export class RegisterComponent {
 
   public registerForm: FormGroup;
+  private formSubmitted: boolean = false;
 
   constructor(private fb: FormBuilder) {
     this.registerForm = this.fb.group({
@@ -17,11 +18,14 @@ export class RegisterComponent {
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(3)]],
       confirmPassword: ['', [Validators.required, Validators.minLength(3)]],
-      terms: [false, [Validators.required]]
+      terms: [, Validators.required]
+    }, {
+      Validators: this.verifyPasswords()
     });
   }
 
   public onSubmit(): void {
+    this.formSubmitted = true;
     if (this.registerForm.invalid) {
       return Object.values(this.registerForm.controls)
         .forEach(control => {
@@ -42,7 +46,24 @@ export class RegisterComponent {
   }
 
   public termsAcepted(): boolean {
-    return this.registerForm.get('terms')?.value;
+    return !this.registerForm.get('terms')?.value && this.formSubmitted;
+  }
+
+  public checkPassword(): boolean {
+    const password = this.registerForm.get('password');
+    const confirmPassword = this.registerForm.get('confirmPassword');
+    return !(password?.value === confirmPassword?.value);
+  }
+
+  public verifyPasswords() {
+    return (formGroup: FormGroup) => {
+      const pwd = formGroup.get('password');
+      const cpwd = formGroup.get('confirmPassword');
+      if (pwd?.value === cpwd?.value)
+        cpwd?.setErrors(null);
+      else
+        cpwd?.setErrors({ notSame: true });
+    }
   }
 
 }
