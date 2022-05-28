@@ -5,23 +5,28 @@
     style="background-image:url(../assets/images/background/login-register.jpg);">
     <div class="login-box card">
         <div class="card-body">
-            <form class="form-horizontal form-material" id="loginform" (submit)="onSubmit($event)">
+            <form class="form-horizontal form-material" id="loginform" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
                 <a href="javascript:void(0)" class="text-center db"><img src="../assets/images/logo-icon.png"
                         alt="Home" /><br /><img src="../assets/images/logo-text.png" alt="Home" /></a>
                 <div class="form-group m-t-40">
                     <div class="col-xs-12">
-                        <input class="form-control" type="text" required="" placeholder="Username">
+                        <input class="form-control" type="text" formControlName="email" placeholder="Email">
+                        <small *ngIf="isInValid('email')" class="form-text text-danger">
+                            *El email es obligatorio</small>
                     </div>
                 </div>
                 <div class="form-group">
                     <div class="col-xs-12">
-                        <input class="form-control" type="password" required="" placeholder="Password">
+                        <input class="form-control" type="password" formControlName="password" placeholder="Password">
+                        <small *ngIf="isInValid('password')" class="form-text text-danger">
+                            *La contraseña es obligatoria</small>
                     </div>
                 </div>
                 <div class="form-group row">
                     <div class="col-md-12">
                         <div class="checkbox checkbox-primary pull-left p-t-0">
-                            <input id="checkbox-signup" type="checkbox" class="filled-in chk-col-light-blue">
+                            <input id="checkbox-signup" type="checkbox" formControlName="rememberMe"
+                                class="filled-in chk-col-light-blue">
                             <label for="checkbox-signup"> Remember me </label>
                         </div>
                         <a href="javascript:void(0)" id="to-recover" class="text-dark pull-right"><i
