@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
+import Swal from 'sweetalert2';
+
 import { UsuarioService } from 'src/app/services/usuario.service';
 
 @Component({
@@ -46,8 +48,8 @@ export class RegisterComponent {
 
     this.us.crearUsuarios(name, email, password)
       .subscribe({
-        next: value => console.log(value),
-        error: error => console.error(error),
+        next: _ => Swal.fire('Cuenta creada', '', 'success'),
+        error: e => Swal.fire('¡Algo salio mal!', e.error.message, 'error'),
         complete: () => console.info('Usuario creado'),
       });
 
