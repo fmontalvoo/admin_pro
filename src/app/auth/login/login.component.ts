@@ -16,10 +16,11 @@ export class LoginComponent implements OnInit {
   public loginForm: FormGroup;
 
   constructor(private router: Router, private fb: FormBuilder, private as: AuthService) {
+    const email = localStorage.getItem('email');
     this.loginForm = this.fb.group({
-      email: ['', [Validators.required, Validators.email]],
+      email: [email || '', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(3)]],
-      rememberMe: [false]
+      rememberMe: [!!email]
     });
   }
 
@@ -39,10 +40,16 @@ export class LoginComponent implements OnInit {
 
     const email = this.loginForm.get('email')?.value;
     const password = this.loginForm.get('password')?.value;
+    const rememberMe = this.loginForm.get('rememberMe')?.value;
 
     this.as.login(email, password)
       .subscribe({
         next: _ => {
+          if (rememberMe)
+            localStorage.setItem('email', email);
+          else
+            localStorage.removeItem('email');
+
           this.router.navigate(['/'])
         },
         error: e => Swal.fire('¡Algo salio mal!', e.error.message, 'error'),
