@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
+import { UsuarioService } from 'src/app/services/usuario.service';
+
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
@@ -11,21 +13,21 @@ export class RegisterComponent {
 
   public registerForm: FormGroup;
   private formSubmitted: boolean = false;
+  private checkedPassword: boolean = false;
 
-  constructor(private fb: FormBuilder) {
+  constructor(private fb: FormBuilder, private us: UsuarioService) {
     this.registerForm = this.fb.group({
       name: ['', [Validators.required, Validators.minLength(3)]],
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(3)]],
       confirmPassword: ['', [Validators.required, Validators.minLength(3)]],
       terms: [, Validators.required]
-    }, {
-      Validators: this.verifyPasswords()
     });
   }
 
   public onSubmit(): void {
     this.formSubmitted = true;
+
     if (this.registerForm.invalid) {
       return Object.values(this.registerForm.controls)
         .forEach(control => {
@@ -35,6 +37,20 @@ export class RegisterComponent {
             control.markAsTouched();
         });
     }
+
+    const name = this.registerForm.get('name')?.value;
+    const email = this.registerForm.get('email')?.value;
+    const password = this.registerForm.get('password')?.value;
+
+    if (!this.checkedPassword) return;
+
+    this.us.crearUsuarios(name, email, password)
+      .subscribe({
+        next: value => console.log(value),
+        error: error => console.error(error),
+        complete: () => console.info('Usuario creado'),
+      });
+
   }
 
   public isInValid(input: string) {
@@ -52,18 +68,8 @@ export class RegisterComponent {
   public checkPassword(): boolean {
     const password = this.registerForm.get('password');
     const confirmPassword = this.registerForm.get('confirmPassword');
-    return !(password?.value === confirmPassword?.value);
-  }
-
-  public verifyPasswords() {
-    return (formGroup: FormGroup) => {
-      const pwd = formGroup.get('password');
-      const cpwd = formGroup.get('confirmPassword');
-      if (pwd?.value === cpwd?.value)
-        cpwd?.setErrors(null);
-      else
-        cpwd?.setErrors({ notSame: true });
-    }
+    this.checkedPassword = (password?.value === confirmPassword?.value)
+    return !this.checkedPassword;
   }
 
 }
