@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-
+import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import Swal from 'sweetalert2';
@@ -17,7 +17,7 @@ export class RegisterComponent {
   private formSubmitted: boolean = false;
   private checkedPassword: boolean = false;
 
-  constructor(private fb: FormBuilder, private us: UsuarioService) {
+  constructor(private router: Router, private fb: FormBuilder, private us: UsuarioService) {
     this.registerForm = this.fb.group({
       name: ['', [Validators.required, Validators.minLength(3)]],
       email: ['', [Validators.required, Validators.email]],
@@ -48,7 +48,7 @@ export class RegisterComponent {
 
     this.us.crearUsuarios(name, email, password)
       .subscribe({
-        next: _ => Swal.fire('Cuenta creada', '', 'success'),
+        next: _ => this.router.navigate(['/']),
         error: e => Swal.fire('¡Algo salio mal!', e.error.message, 'error'),
         complete: () => console.info('Usuario creado'),
       });

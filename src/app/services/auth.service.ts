@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
-import { Observable } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
+import { map, tap } from 'rxjs/operators';
 
 import firebase from 'firebase/compat/app';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
@@ -40,9 +40,27 @@ export class AuthService {
         tap((response: any) => {
           this.auth.signOut();
           localStorage.setItem('accessToken', response['token']);
-        }
-        )
+        })
       );
+  }
+
+  public renewToken(): Observable<boolean> {
+    const token = localStorage.getItem('accessToken');
+
+    if (token) {
+      return this.http.get(`${this.url}/renew`, {
+        headers: new HttpHeaders({
+          'x-token': token
+        })
+      })
+        .pipe(
+          tap((response: any) => localStorage.setItem('accessToken', response['token'])),
+          map(response => true),
+          // catchError(() => of(false))
+        );
+    }
+
+    return of(false);
   }
 
 }
