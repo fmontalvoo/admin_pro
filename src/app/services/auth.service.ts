@@ -38,7 +38,6 @@ export class AuthService {
     return this.http.post(`${this.url}/login/google`, { token })
       .pipe(
         tap((response: any) => {
-          this.auth.signOut();
           localStorage.setItem('accessToken', response['token']);
         })
       );
@@ -61,6 +60,13 @@ export class AuthService {
     }
 
     return of(false);
+  }
+
+  public async logout(): Promise<void> {
+    localStorage.removeItem('accessToken');
+    const user = await this.auth.currentUser;
+    if (user)
+      await this.auth.signOut();
   }
 
 }

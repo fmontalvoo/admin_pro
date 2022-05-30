@@ -18,8 +18,8 @@ export class AuthGuard implements CanActivate {
 
     return this.as.renewToken()
       .pipe(
-        tap(response => {
-          if (!response)
+        tap(isAuthenticated => {
+          if (!isAuthenticated)
             this.router.navigate(['/login']);
         })
       );
