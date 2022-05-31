@@ -7,6 +7,8 @@ import { map, tap } from 'rxjs/operators';
 import firebase from 'firebase/compat/app';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 
+import { Usuario } from '../models/usuario.model';
+
 import { environment } from 'src/environments/environment';
 
 @Injectable({
@@ -14,6 +16,7 @@ import { environment } from 'src/environments/environment';
 })
 export class AuthService {
 
+  private usuario!: Usuario;
   private url: string = `${environment.url}/auth`;
 
   constructor(private http: HttpClient, private auth: AngularFireAuth) { }
@@ -53,7 +56,11 @@ export class AuthService {
         })
       })
         .pipe(
-          tap((response: any) => localStorage.setItem('accessToken', response['token'])),
+          tap((response: any) => {
+            const { uid, name, email, image, role, google } = response['usuario']
+            this.usuario = new Usuario(name, email, '', uid, role, image, google);
+            localStorage.setItem('accessToken', response['token'])
+          }),
           map(response => true),
           // catchError(() => of(false))
         );
