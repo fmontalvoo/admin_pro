@@ -6,6 +6,7 @@ import { AuthGuard } from '../guards/auth.guard';
 
 import { PagesComponent } from './pages.component';
 import { RxjsComponent } from './rxjs/rxjs.component';
+import { ProfileComponent } from './profile/profile.component';
 import { PromisesComponent } from './promises/promises.component';
 import { ProgressComponent } from './progress/progress.component';
 import { GraphOneComponent } from './graph-one/graph-one.component';
@@ -27,6 +28,11 @@ const routes: Routes = [
         path: 'account-settings',
         data: { title: 'Account settings' },
         component: AccountSettingsComponent,
+      },
+      {
+        path: 'profile',
+        data: { title: 'User profile' },
+        component: ProfileComponent,
       },
       {
         path: 'progress',
