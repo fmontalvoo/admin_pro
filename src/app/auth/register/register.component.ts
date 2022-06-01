@@ -46,7 +46,7 @@ export class RegisterComponent {
 
     if (!this.checkedPassword) return;
 
-    this.us.crearUsuarios(name, email, password)
+    this.us.crearUsuario(name, email, password)
       .subscribe({
         next: _ => this.router.navigate(['/']),
         error: e => Swal.fire('¡Algo salio mal!', e.error.message, 'error'),

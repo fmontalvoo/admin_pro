@@ -5,20 +5,26 @@
             <div class="card-body">
                 <h4 class="card-title text-center">Profile</h4>
                 <h6 class="card-subtitle text-center">User information</h6>
-                <form class="form p-t-20">
+                <form class="form p-t-20" [formGroup]="profileForm" (submit)="onSubmit()">
                     <div class="form-group">
-                        <label for="exampleInputuname">User Name</label>
+                        <label for="exampleInputuname">Nombre</label>
                         <div class="input-group">
                             <div class="input-group-addon"><i class="ti-user"></i></div>
-                            <input type="text" class="form-control" id="exampleInputuname" placeholder="Username">
+                            <input type="text" class="form-control" formControlName="name" id="exampleInputuname"
+                                placeholder="Nombre">
                         </div>
+                        <small *ngIf="isInValid('name')" class="form-text text-danger">
+                            *El nombre es obligatorio</small>
                     </div>
                     <div class="form-group">
-                        <label for="exampleInputEmail1">Email address</label>
+                        <label for="exampleInputEmail1">Correo</label>
                         <div class="input-group">
                             <div class="input-group-addon"><i class="ti-email"></i></div>
-                            <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Enter email">
+                            <input type="email" class="form-control" formControlName="email" id="exampleInputEmail1"
+                                placeholder="Correo">
                         </div>
+                        <small *ngIf="isInValid('email')" class="form-text text-danger">
+                            *El email es obligatorio</small>
                     </div>
 
                     <!-- <div class="form-group">
@@ -44,7 +50,7 @@
                         </div>
                     </div> -->
 
-                    <button type="submit" class="btn btn-block btn-success waves-effect waves-light m-r-10">
+                    <button type="submit" [disabled]="profileForm.invalid" class="btn btn-block btn-success waves-effect waves-light m-r-10">
                         <i class="fa fa-save"></i> Save
                     </button>
                     <!-- <button type="submit" class="btn btn-inverse waves-effect waves-light">Cancel</button> -->

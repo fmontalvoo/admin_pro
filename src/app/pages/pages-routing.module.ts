@@ -30,7 +30,7 @@ const routes: Routes = [
         component: AccountSettingsComponent,
       },
       {
-        path: 'profile',
+        path: 'profile/:id',
         data: { title: 'User profile' },
         component: ProfileComponent,
       },

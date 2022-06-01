@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 import { Observable, of } from 'rxjs';
-import { map, tap } from 'rxjs/operators';
+import { catchError, map, tap } from 'rxjs/operators';
 
 import firebase from 'firebase/compat/app';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
@@ -56,13 +56,13 @@ export class AuthService {
         })
       })
         .pipe(
-          tap((response: any) => {
+          map((response: any) => {
             const { uid, name, email, image, role, google } = response['usuario']
-            this.usuario = new Usuario(name, email, '', '', role, image, google);
-            localStorage.setItem('accessToken', response['token'])
+            this.usuario = new Usuario(name, email, '', uid, role, image, google);
+            localStorage.setItem('accessToken', response['token']);
+            return true;
           }),
-          map(response => true),
-          // catchError(() => of(false))
+          catchError(() => of(false))
         );
     }
 
