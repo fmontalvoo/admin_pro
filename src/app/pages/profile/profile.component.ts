@@ -2,10 +2,11 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
+import { Subscription } from 'rxjs/internal/Subscription';
+
 import { Usuario } from 'src/app/models/usuario.model';
 
 import { UsuarioService } from 'src/app/services/usuario.service';
-import { Subscription } from 'rxjs/internal/Subscription';
 
 @Component({
   selector: 'app-profile',
@@ -70,10 +71,11 @@ export class ProfileComponent implements OnInit, OnDestroy {
 
     console.log(name, email);
 
-    this.us.actualizarUsuario(this.usuario.uid!, name, email)
-      .subscribe(response => {
-        console.log(response);
+    const sub = this.us.actualizarUsuario(this.usuario.uid!, name, email)
+      .subscribe(usuario => {
+        console.log(usuario);
       });
+    this.userSubscription.add(sub);
   }
 
   public isInValid(input: string) {
