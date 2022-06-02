@@ -43,7 +43,7 @@ export class UploadFilesService {
   public fileUpload(fileItem: File, coleccion: string, id: string) {
     const uploadUrl = `${this.url}/${coleccion}/${id}`;
     const formData: FormData = new FormData();
-    formData.append('imagen', fileItem, fileItem.name);
+    formData.append('image', fileItem, fileItem.name);
     return this.http.put(uploadUrl, formData, {
       reportProgress: true,
       headers: new HttpHeaders({

@@ -2,6 +2,8 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
+import Swal from 'sweetalert2';
+
 import { Subscription } from 'rxjs/internal/Subscription';
 
 import { Usuario } from 'src/app/models/usuario.model';
@@ -76,8 +78,10 @@ export class ProfileComponent implements OnInit, OnDestroy {
     console.log(name, email);
 
     const sub = this.us.actualizarUsuario(this.usuario.uid!, name, email)
-      .subscribe(usuario => {
-        console.log(usuario);
+      .subscribe({
+        next: usuario => console.log(usuario),
+        error: e => Swal.fire('¡Algo salio mal!', e.error.message, 'error'),
+        complete: () => Swal.fire('¡Actualizado!', 'El usuario ha sido actualizado', 'success')
       });
     this.userSubscription.add(sub);
   }
@@ -101,25 +105,15 @@ export class ProfileComponent implements OnInit, OnDestroy {
 
   public subirImagen(): void {
     this.ufs.actualizarImagen(this.imagen, 'usuarios', this.usuario.uid!)
-      .then(data =>
-        this.usuario.image = data.fileName
+      .then(data => {
+        this.usuario.image = data.fileName;
+        Swal.fire('¡Actualizado!', 'La foto de perfil fue actualizada', 'success');
+      }
       )
-      .catch(error =>
-        console.error(error)
+      .catch(e =>
+        Swal.fire('¡Algo salio mal!', e.error.message, 'error')
       );
   }
-
-  // public cambiarImagen(file: File): void {
-  //   if (!file) return;
-
-  //   this.imagen = file;
-
-  //   const reader = new FileReader();
-  //   reader.readAsDataURL(file);
-  //   reader.onload = () => {
-  //     this.usuario.image = reader.result?.toString();
-  //   }
-  // }
 
   public isInValid(input: string) {
     return this.profileForm.get(input)?.invalid && this.profileForm.get(input)?.touched;
