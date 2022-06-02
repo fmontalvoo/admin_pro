@@ -9,7 +9,7 @@ export class Usuario {
         public uid?: string,
         public role?: string,
         public image?: string,
-        public google?: string,
+        public google?: boolean,
     ) { }
 
     get imageUrl(): string {

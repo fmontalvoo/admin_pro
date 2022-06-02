@@ -125,5 +125,11 @@ export class ProfileComponent implements OnInit, OnDestroy {
     return 'assets/images/no-img.jpg';
   }
 
+  public get google(): boolean {
+    if (this.usuario)
+      return this.usuario.google!;
+    return false;
+  }
+
 
 }

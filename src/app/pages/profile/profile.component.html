@@ -20,8 +20,8 @@
                         <label for="exampleInputEmail1">Correo</label>
                         <div class="input-group">
                             <div class="input-group-addon"><i class="ti-email"></i></div>
-                            <input type="email" class="form-control" formControlName="email" id="exampleInputEmail1"
-                                placeholder="Correo">
+                            <input type="email" class="form-control" [readOnly]="google" formControlName="email"
+                                id="exampleInputEmail1" placeholder="Correo">
                         </div>
                         <small *ngIf="isInValid('email')" class="form-text text-danger">
                             *El email es obligatorio</small>
@@ -72,7 +72,7 @@
                         <img class="avatar" [src]="imgTemp" width="256">
                     </ng-template>
                     <ng-template #img>
-                        <img class="avatar" [src]="image" width="256">
+                        <img class="avatar" [src]="image" width="117">
                     </ng-template>
                 </div>
 
