@@ -7,6 +7,7 @@ import { Subscription } from 'rxjs/internal/Subscription';
 import { Usuario } from 'src/app/models/usuario.model';
 
 import { UsuarioService } from 'src/app/services/usuario.service';
+import { UploadFilesService } from 'src/app/services/upload-files.service';
 
 @Component({
   selector: 'app-profile',
@@ -17,11 +18,13 @@ export class ProfileComponent implements OnInit, OnDestroy {
 
   public profileForm!: FormGroup;
   private usuario!: Usuario;
+  public imagen!: File;
   private userSubscription: Subscription;
 
   constructor(private formBuilder: FormBuilder,
     private route: ActivatedRoute,
-    private us: UsuarioService) {
+    private us: UsuarioService,
+    private ufs: UploadFilesService) {
     this.userSubscription = new Subscription();
   }
 
@@ -76,6 +79,23 @@ export class ProfileComponent implements OnInit, OnDestroy {
         console.log(usuario);
       });
     this.userSubscription.add(sub);
+  }
+
+  public cargarImagen(event: Event): void {
+    // const file = event.target?.files.item(0);
+    const file = (event.target as HTMLInputElement).files?.item(0);
+    this.imagen = file!;
+    console.log(this.imagen);
+  }
+
+  public subirImagen(): void {
+    this.ufs.actualizarImagen(this.imagen, 'usuarios', this.usuario.uid!)
+      .then(data => {
+        console.log(data);
+      })
+      .catch(error => {
+        console.error(error);
+      });
   }
 
   public isInValid(input: string) {
