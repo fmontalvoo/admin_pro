@@ -66,7 +66,15 @@
                 <h4 class="card-title text-center">Image</h4>
                 <h6 class="card-subtitle text-center">User profile image</h6>
 
-                <img src="">
+                <div class="text-center mb-3">
+                    <div *ngIf="!imgTemp; then img else temp"></div>
+                    <ng-template #temp>
+                        <img class="avatar" [src]="imgTemp" width="256">
+                    </ng-template>
+                    <ng-template #img>
+                        <img class="avatar" [src]="image" width="256">
+                    </ng-template>
+                </div>
 
                 <input type="file" (change)="cargarImagen($event)">
 

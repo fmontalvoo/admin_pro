@@ -20,6 +20,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
   private usuario!: Usuario;
   public imagen!: File;
   private userSubscription: Subscription;
+  public imgTemp: string = '';
 
   constructor(private formBuilder: FormBuilder,
     private route: ActivatedRoute,
@@ -84,22 +85,50 @@ export class ProfileComponent implements OnInit, OnDestroy {
   public cargarImagen(event: Event): void {
     // const file = event.target?.files.item(0);
     const file = (event.target as HTMLInputElement).files?.item(0);
-    this.imagen = file!;
-    console.log(this.imagen);
+    if (!file) {
+      this.imgTemp = '';
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => {
+      this.imgTemp = reader.result?.toString()!;
+    }
+
+    this.imagen = file;
   }
 
   public subirImagen(): void {
     this.ufs.actualizarImagen(this.imagen, 'usuarios', this.usuario.uid!)
-      .then(data => {
-        console.log(data);
-      })
-      .catch(error => {
-        console.error(error);
-      });
+      .then(data =>
+        this.usuario.image = data.fileName
+      )
+      .catch(error =>
+        console.error(error)
+      );
   }
+
+  // public cambiarImagen(file: File): void {
+  //   if (!file) return;
+
+  //   this.imagen = file;
+
+  //   const reader = new FileReader();
+  //   reader.readAsDataURL(file);
+  //   reader.onload = () => {
+  //     this.usuario.image = reader.result?.toString();
+  //   }
+  // }
 
   public isInValid(input: string) {
     return this.profileForm.get(input)?.invalid && this.profileForm.get(input)?.touched;
+  }
+
+  public get image(): string {
+    if (this.usuario)
+      return this.usuario.imageUrl;
+    return 'assets/images/no-img.jpg';
   }
 
 

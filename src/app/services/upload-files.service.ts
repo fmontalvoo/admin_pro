@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
+import { AuthService } from './auth.service';
+
 import { environment } from 'src/environments/environment';
 
 @Injectable({
@@ -11,7 +13,7 @@ export class UploadFilesService {
   private url: string = `${environment.url}/uploads`;
   private token = localStorage.getItem('accessToken') || '';
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private as: AuthService) { }
 
   public async actualizarImagen(archivo: File, coleccion: 'usuarios' | 'doctores' | 'hospitales', id: string) {
     try {
@@ -27,9 +29,11 @@ export class UploadFilesService {
         body: formData
       });
 
-      const data = await response.json();
-
-      return data;
+      if (response.status === 200) {
+        const data = await response.json();
+        this.as.usuario.image = data['fileName'];
+        return data;
+      }
 
     } catch (error) {
       return false;
