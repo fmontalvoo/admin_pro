@@ -30,6 +30,24 @@ export class SidebarService {
           url: 'rxjs',
         },
       ]
+    },
+    {
+      title: 'Mantenimeintos',
+      icon: 'mdi mdi-folder-lock-open',
+      items: [
+        {
+          title: 'Usuarios',
+          url: 'users',
+        },
+        {
+          title: 'Doctores',
+          url: 'doctors',
+        },
+        {
+          title: 'Hospitales',
+          url: 'hospitals',
+        },
+      ]
     }
   ];
   constructor() { }

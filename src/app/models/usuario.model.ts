@@ -13,8 +13,8 @@ export class Usuario {
     ) { }
 
     get imageUrl(): string {
-        if (this.image?.includes('googleusercontent'))
+        if (!!this.image && this.image?.includes('googleusercontent'))
             return this.image;
-        return `${environment.url}/uploads/usuarios/${this.image ? this.image : 'no-img.jpg'}`;
+        return `${environment.url}/uploads/usuarios/${!!this.image ? this.image : 'no-img.jpg'}`;
     }
 }

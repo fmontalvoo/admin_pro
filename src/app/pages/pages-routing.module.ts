@@ -13,6 +13,8 @@ import { GraphOneComponent } from './graph-one/graph-one.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { AccountSettingsComponent } from './account-settings/account-settings.component';
 
+import { UsersComponent } from './maintenances/users/users.component';
+
 const routes: Routes = [
   {
     path: 'dashboard',
@@ -53,6 +55,12 @@ const routes: Routes = [
         path: 'rxjs',
         data: { title: 'Rxjs' },
         component: RxjsComponent,
+      },
+      // Mantenimeintos
+      {
+        path: 'users',
+        data: { title: 'Mantenimiento usuarios' },
+        component: UsersComponent,
       },
     ]
   },
