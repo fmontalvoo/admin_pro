@@ -47,11 +47,17 @@
                             <tbody>
                                 <tr *ngFor="let usuario of usuarios">
                                     <td class="text-center">
-                                        <img class="avatar-picture" [src]="usuario.imageUrl" [alt]="usuario.name" />
+                                        <img class="avatar-picture pointer" [src]="usuario.imageUrl"
+                                            [alt]="usuario.name" (click)="abrirModal(usuario)" />
                                     </td>
                                     <td>{{usuario.name}}</td>
                                     <td>{{usuario.email}}</td>
-                                    <td>{{usuario.role}}</td>
+                                    <td>
+                                        <select [(ngModel)]="usuario.role" (change)="cambiarRol(usuario)">
+                                            <option value="ADMIN_ROLE">Admin</option>
+                                            <option value="USER_ROLE">Usuario</option>
+                                        </select>
+                                    </td>
                                     <td class="text-center">
                                         <div *ngIf="usuario.google; then google else email"></div>
                                     </td>

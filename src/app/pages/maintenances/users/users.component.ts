@@ -2,12 +2,14 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 
 import Swal from 'sweetalert2';
 import { Subscription } from 'rxjs';
+import { delay } from 'rxjs/operators';
 
 import { Usuario } from 'src/app/models/usuario.model';
 
 import { AuthService } from 'src/app/services/auth.service';
 import { UsuarioService } from 'src/app/services/usuario.service';
 import { BusquedasService } from 'src/app/services/busquedas.service';
+import { ImageModalService } from 'src/app/services/image-modal.service';
 
 @Component({
   selector: 'app-users',
@@ -22,16 +24,23 @@ export class UsersComponent implements OnInit, OnDestroy {
   public cargando: boolean = true;
   public usuarios: Usuario[] = [];
 
-  private subscriptions = new Subscription();;
+  private subscriptions: Subscription[] = new Array<Subscription>();
 
-  constructor(private as: AuthService, private us: UsuarioService, private bs: BusquedasService) { }
+  constructor(private as: AuthService,
+    private us: UsuarioService,
+    private bs: BusquedasService,
+    private ims: ImageModalService) { }
 
   ngOnInit(): void {
     this.cargarUsuarios();
+    const sub = this.ims.imgChange
+      .pipe(delay(500))
+      .subscribe(() => this.cargarUsuarios());
+    this.subscriptions.push(sub);
   }
 
   ngOnDestroy(): void {
-    this.subscriptions.unsubscribe();
+    this.subscriptions.forEach(sub => sub.unsubscribe());
   }
 
   private cargarUsuarios() {
@@ -46,13 +55,13 @@ export class UsersComponent implements OnInit, OnDestroy {
         error: e => console.error(e),
         complete: () => console.info('Lista recuperada')
       });
-    this.subscriptions.add(sub);
+    this.subscriptions.push(sub);
   }
 
   public buscar(query: string) {
     this.cargando = true;
     if (query) {
-      this.bs.buscar(query, 'usuarios')
+      const sub = this.bs.buscar(query, 'usuarios')
         .subscribe({
           next: resultados => {
             this.cargando = false;
@@ -62,9 +71,22 @@ export class UsersComponent implements OnInit, OnDestroy {
           error: e => console.error(e),
           complete: () => console.info('Busqueda completada')
         });
+      this.subscriptions.push(sub);
     } else {
       this.cargarUsuarios();
     }
+  }
+
+  public cambiarRol(usuario: Usuario) {
+    const sub = this.us.editarUsuario(usuario)
+      .subscribe({
+        next: response => {
+          console.log(response);
+        },
+        error: e => console.error(e),
+        complete: () => console.info('Rol de usuario actualizado')
+      });
+    this.subscriptions.push(sub);
   }
 
   public borrar(usuario: Usuario) {
@@ -81,7 +103,7 @@ export class UsersComponent implements OnInit, OnDestroy {
       cancelButtonText: 'Cancelar'
     }).then((result) => {
       if (result.isConfirmed) {
-        this.us.eliminarUsuario(usuario.uid!)
+        const sub = this.us.eliminarUsuario(usuario.uid!)
           .subscribe({
             next: () => {
               this.cargarUsuarios();
@@ -94,8 +116,13 @@ export class UsersComponent implements OnInit, OnDestroy {
             error: e => console.error(e),
             complete: () => console.info('Operacion completada')
           });
+        this.subscriptions.push(sub);
       }
     })
+  }
+
+  public abrirModal(usuario: Usuario) {
+    this.ims.abrirModal(usuario.uid!, 'usuarios', usuario.image);
   }
 
   public changeValue(value: number): void {

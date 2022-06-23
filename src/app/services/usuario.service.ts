@@ -49,6 +49,10 @@ export class UsuarioService {
       );
   }
 
+  public editarUsuario(usuario: Usuario) {
+    return this.http.put(`${this.url}/${usuario.uid}`, usuario, { headers: this.headers });
+  }
+
   public eliminarUsuario(uid: string) {
     return this.http.delete(`${this.url}/${uid}`, { headers: this.headers });
   }
