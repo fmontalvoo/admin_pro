@@ -30,8 +30,22 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-body">
-                    <h4 class="card-title">Hospitales</h4>
-                    <h6 class="card-subtitle">Hospitales registrados</h6>
+
+                    <div class="row">
+                        <div class="col-8">
+                            <h4 class="card-title">Hospitales</h4>
+                            <h6 class="card-subtitle">Hospitales registrados</h6>
+                        </div>
+                        <div class="col-4">
+                            <div class="text-right">
+                                <button class="btn btn-outline-info" (click)="abrirAlert()">
+                                    <i class="fa fa-hospital-o"></i>
+                                    Agregar hospital
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="table-responsive">
                         <table class="table table-bordered">
                             <thead>
@@ -44,7 +58,7 @@
                             <tbody>
                                 <tr *ngFor="let hospital of hospitales">
                                     <td class="text-center">
-                                        <img class="avatar-picture pointer" [src]="hospital.image! | image:'hospitales'"
+                                        <img class="w100 pointer" [src]="hospital.image! | image:'hospitales'"
                                             [alt]="hospital.name" (click)="abrirModal(hospital)" />
                                     </td>
                                     <td>
@@ -52,10 +66,12 @@
                                             placeholder="Nombre hospital" />
                                     </td>
                                     <td class="text-nowrap text-center">
-                                        <a href="#" data-toggle="tooltip" data-original-title="Guardar">
+                                        <a (click)="guardarHospital(hospital)" data-toggle="tooltip"
+                                            data-original-title="Guardar">
                                             <i class="fa fa-save text-inverse m-r-10"></i>
                                         </a>
-                                        <a href="#" data-toggle="tooltip" data-original-title="Eliminar">
+                                        <a (click)="borrar(hospital)" data-toggle="tooltip"
+                                            data-original-title="Eliminar">
                                             <i class="fa fa-close text-danger"></i>
                                         </a>
                                     </td>

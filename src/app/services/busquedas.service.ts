@@ -6,6 +6,7 @@ import { map } from 'rxjs/operators';
 import { Usuario } from '../models/usuario.model';
 
 import { environment } from 'src/environments/environment';
+import { Hospital } from '../models/hospital.model';
 
 @Injectable({
   providedIn: 'root'
@@ -36,7 +37,12 @@ export class BusquedasService {
               return [];
 
             case 'hospitales':
-              return [];
+              return resultados.map(
+                (hospital: any) => {
+                  const { id, name, image, user } = hospital;
+                  return new Hospital(name, image, user, id);
+                }
+              );
 
             default:
               return [];

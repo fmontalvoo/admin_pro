@@ -18,7 +18,29 @@ export class HospitalService {
 
   constructor(private http: HttpClient) { }
 
-  public listarHospitales(from: number = 0, limit: number = 5): Observable<Array<Hospital>> {
+  public crearHospital(name: string): Observable<any> {
+    return this.http.post(this.url, { name }, { headers: this.headers });
+  }
+
+  public leerHospital(uid: string): Observable<Hospital> {
+    return this.http.get(`${this.url}/${uid}`, { headers: this.headers })
+      .pipe(
+        map((response: any) => {
+          const { id, name, image, user } = response['hospital'];
+          return new Hospital(name, image, user, id);
+        })
+      );
+  }
+
+  public actualizarHospital(uid: string, name: string) {
+    return this.http.put(`${this.url}/${uid}`, { name }, { headers: this.headers });
+  }
+
+  public eliminarHospital(uid: string) {
+    return this.http.delete(`${this.url}/${uid}`, { headers: this.headers });
+  }
+
+  public listarHospitales(): Observable<Array<Hospital>> {
     return this.http.get<{ hospitales: Hospital[] }>(this.url, { headers: this.headers })
       .pipe(map((response: { hospitales: Hospital[] }) => response.hospitales));
   }
