@@ -19,6 +19,10 @@
                             <img class="avatar" [src]="ims.img" width="117">
                         </ng-template>
                     </div>
+                    <div class="progress mt-3 mb-3">
+                        <div class="progress-bar bg-info" role="progressbar" [style.width]="porcentaje+'%'"
+                            style="height: 6px;"></div>
+                    </div>
 
                     <input type="file" (change)="cargarImagen($event)">
 

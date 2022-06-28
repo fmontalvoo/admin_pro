@@ -1,6 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 
 import Swal from 'sweetalert2';
+
 import { Subscription } from 'rxjs';
 import { delay } from 'rxjs/operators';
 
@@ -26,10 +27,12 @@ export class UsersComponent implements OnInit, OnDestroy {
 
   private subscriptions: Subscription[] = new Array<Subscription>();
 
-  constructor(private as: AuthService,
+  constructor(
+    private as: AuthService,
     private us: UsuarioService,
     private bs: BusquedasService,
-    private ims: ImageModalService) { }
+    private ims: ImageModalService,
+  ) { }
 
   ngOnInit(): void {
     this.cargarUsuarios();
@@ -43,7 +46,7 @@ export class UsersComponent implements OnInit, OnDestroy {
     this.subscriptions.forEach(sub => sub.unsubscribe());
   }
 
-  private cargarUsuarios() {
+  private cargarUsuarios(): void {
     this.cargando = true;
     const sub = this.us.listarUsuarios(this.from)
       .subscribe({
@@ -58,7 +61,7 @@ export class UsersComponent implements OnInit, OnDestroy {
     this.subscriptions.push(sub);
   }
 
-  public buscar(query: string) {
+  public buscar(query: string): void {
     this.cargando = true;
     if (query) {
       const sub = this.bs.buscar(query, 'usuarios')
@@ -77,7 +80,7 @@ export class UsersComponent implements OnInit, OnDestroy {
     }
   }
 
-  public cambiarRol(usuario: Usuario) {
+  public cambiarRol(usuario: Usuario): void {
     const sub = this.us.editarUsuario(usuario)
       .subscribe({
         next: response => {
@@ -89,7 +92,7 @@ export class UsersComponent implements OnInit, OnDestroy {
     this.subscriptions.push(sub);
   }
 
-  public borrar(usuario: Usuario) {
+  public borrar(usuario: Usuario): void {
     if (usuario.uid === this.as.usuario.uid) return;
 
     Swal.fire({
@@ -121,7 +124,7 @@ export class UsersComponent implements OnInit, OnDestroy {
     })
   }
 
-  public abrirModal(usuario: Usuario) {
+  public abrirModal(usuario: Usuario): void {
     this.ims.abrirModal(usuario.uid!, 'usuarios', usuario.image);
   }
 
@@ -135,7 +138,7 @@ export class UsersComponent implements OnInit, OnDestroy {
     this.cargarUsuarios();
   }
 
-  public get usuarioActual() {
+  public get usuarioActual(): Usuario {
     return this.as.usuario;
   }
 

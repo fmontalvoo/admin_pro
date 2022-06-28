@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
+import { PipesModule } from '../pipes/pipes.module';
 import { SharedModule } from '../shared/shared.module';
 // import { PagesRoutingModule } from './pages-routing.module';
 import { ComponentsModule } from '../components/components.module';
@@ -27,6 +28,7 @@ import { DoctorsComponent } from './maintenances/doctors/doctors.component';
     ReactiveFormsModule,
     SharedModule,
     ComponentsModule,
+    PipesModule,
     // PagesRoutingModule,
   ],
   declarations: [

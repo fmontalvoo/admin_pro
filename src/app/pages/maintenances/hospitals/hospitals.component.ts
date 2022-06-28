@@ -1,4 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+
+import { Subscription } from 'rxjs';
+import { delay } from 'rxjs/operators';
+
+import { Hospital } from 'src/app/models/hospital.model';
+
+import { HospitalService } from 'src/app/services/hospital.service';
+import { ImageModalService } from 'src/app/services/image-modal.service';
 
 @Component({
   selector: 'app-hospitals',
@@ -6,27 +14,49 @@ import { Component, OnInit } from '@angular/core';
   styles: [
   ]
 })
-export class HospitalsComponent implements OnInit {
+export class HospitalsComponent implements OnInit, OnDestroy {
 
-  public from: number = 0;
-  public total: number = 0;
-  public cargando: boolean = false;
+  public cargando: boolean = true;
 
-  constructor() { }
+  public hospitales: Array<Hospital> = new Array();
+
+  private subscriptions: Subscription[] = new Array<Subscription>();
+
+  constructor(
+    private hs: HospitalService,
+    private ims: ImageModalService,
+  ) { }
 
   ngOnInit(): void {
+    this.cargarHospitales();
+    const sub = this.ims.imgChange
+      .pipe(delay(500))
+      .subscribe(() => this.cargarHospitales());
+    this.subscriptions.push(sub);
   }
 
-  public buscar(query: string) {
+  ngOnDestroy(): void {
+    this.subscriptions.forEach(sub => sub.unsubscribe());
+  }
+
+  private cargarHospitales(): void {
+    this.cargando = true;
+    const sub = this.hs.listarHospitales()
+      .pipe(delay(500))
+      .subscribe(response => {
+        this.cargando = false;
+        this.hospitales = response;
+      });
+    this.subscriptions.push(sub);
+  }
+
+  public abrirModal(hospital: Hospital): void {
+    this.ims.abrirModal(hospital.id!, 'hospitales', hospital.image);
+  }
+
+  public buscar(query: string): void {
     this.cargando = true;
   }
 
-  public changeValue(value: number): void {
-    this.from += value;
-    if (this.from < 0)
-      this.from = 0;
-    else if (this.from > this.total)
-      this.from -= value;
-  }
 
 }
