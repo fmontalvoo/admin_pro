@@ -3,10 +3,11 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 import { map } from 'rxjs/operators';
 
+import { Doctor } from '../models/doctor.model';
 import { Usuario } from '../models/usuario.model';
+import { Hospital } from '../models/hospital.model';
 
 import { environment } from 'src/environments/environment';
-import { Hospital } from '../models/hospital.model';
 
 @Injectable({
   providedIn: 'root'
@@ -34,7 +35,12 @@ export class BusquedasService {
               );
 
             case 'doctores':
-              return [];
+              return resultados.map(
+                (doctor: any) => {
+                  const { id, name, image, user, hospital } = doctor;
+                  return new Doctor(name, image, user, hospital, id);
+                }
+              );
 
             case 'hospitales':
               return resultados.map(

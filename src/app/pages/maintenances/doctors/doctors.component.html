@@ -30,26 +30,44 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-body">
-                    <h4 class="card-title">Doctores</h4>
-                    <h6 class="card-subtitle">Doctores registrados</h6>
+                    <div class="row">
+                        <div class="col-8">
+                            <h4 class="card-title">Doctores</h4>
+                            <h6 class="card-subtitle">Doctores registrados</h6>
+                        </div>
+                        <div class="col-4">
+                            <div class="text-right">
+                                <a class="btn btn-outline-info" routerLink="/dashboard/doctor/new">
+                                    <i class="fa fa-user"></i>
+                                    Agregar doctor
+                                </a>
+                            </div>
+                        </div>
+                    </div>
                     <div class="table-responsive">
                         <table class="table table-bordered">
                             <thead>
                                 <tr>
-                                    <th></th>
-                                    <th></th>
+                                    <th class="w100">Fotografia</th>
+                                    <th>Nombre</th>
                                     <th class="text-nowrap w100">Acciones</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td></td>
-                                    <td></td>
+                                <tr *ngFor="let doctor of doctores">
+                                    <!-- <pre>{{doctor | json}}</pre> -->
+                                    <td class="text-center">
+                                        <img class="avatar-picture pointer" [src]="doctor.image! | image:'doctores'"
+                                            [alt]="doctor.name" (click)="abrirModal(doctor)" />
+                                    </td>
+                                    <td>{{doctor.name}}</td>
                                     <td class="text-nowrap text-center">
-                                        <a href="#" data-toggle="tooltip" data-original-title="Editar">
+                                        <a [routerLink]="['/dashboard','doctor', doctor.id]" data-toggle="tooltip"
+                                            data-original-title="Editar">
                                             <i class="fa fa-pencil text-inverse m-r-10"></i>
                                         </a>
-                                        <a href="#" data-toggle="tooltip" data-original-title="Eliminar">
+                                        <a (click)="borrar(doctor)" data-toggle="tooltip"
+                                            data-original-title="Eliminar">
                                             <i class="fa fa-close text-danger"></i>
                                         </a>
                                     </td>
@@ -57,12 +75,7 @@
                             </tbody>
                         </table>
                     </div>
-                    <div class="text-center" *ngIf="txtBusqueda.value.length === 0">
-                        <p class="text-muted">{{from}}/{{total}}</p>
-                        <button (click)="changeValue(-5)" class="btn btn-secondary">Anteriores</button>
-                        &nbsp;
-                        <button (click)="changeValue(5)" class="btn btn-secondary">Siguientes</button>
-                    </div>
+
                 </div>
             </div>
         </div>

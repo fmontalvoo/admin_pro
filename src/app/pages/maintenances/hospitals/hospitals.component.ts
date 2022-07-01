@@ -1,5 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 
+import Swal from 'sweetalert2';
+
 import { Subscription } from 'rxjs';
 import { delay } from 'rxjs/operators';
 
@@ -8,7 +10,6 @@ import { BusquedasService } from 'src/app/services/busquedas.service';
 
 import { HospitalService } from 'src/app/services/hospital.service';
 import { ImageModalService } from 'src/app/services/image-modal.service';
-import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-hospitals',
@@ -32,9 +33,11 @@ export class HospitalsComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.cargarHospitales();
+
     const sub = this.ims.imgChange
       .pipe(delay(500))
       .subscribe(() => this.cargarHospitales());
+
     this.subscriptions.push(sub);
   }
 
@@ -93,7 +96,7 @@ export class HospitalsComponent implements OnInit, OnDestroy {
           console.info(response);
           // this.cargarHospitales();
           this.hospitales.push(response.hospital);
-          Swal.fire('Guardado!', `Se registro al hospital: ${name}`, 'success');
+          Swal.fire('¡Guardado!', `Se registro al hospital: ${name}`, 'success');
         }
           , e => console.error(e)
         );

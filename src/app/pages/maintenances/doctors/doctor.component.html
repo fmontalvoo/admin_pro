@@ -1,0 +1,56 @@
+<div class="row">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title text-center">Doctor</h4>
+                <div class="text-center" *ngIf="!!doctor">
+                    <img class="doctor-picture pointer" [src]="doctor.image! | image:'doctores'" [alt]="doctor.name"
+                        (click)="abrirModal(doctor)" />
+                </div>
+                <form [formGroup]="doctorForm" (ngSubmit)="onSubmit()" class="form p-t-10">
+                    <div class="form-group">
+                        <label for="exampleInputuname">Doctor</label>
+                        <div class="input-group">
+                            <div class="input-group-addon"><i class="ti-user"></i></div>
+                            <input type="text" class="form-control" formControlName="name"
+                                placeholder="Nombre del doctor">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Hospital</label>
+                        <div class="input-group">
+                            <div class="input-group-addon"><i class="fa fa-hospital-o"></i></div>
+                            <select class="form-control" (change)="selectHospital($event)" formControlName="hospital">
+                                <option value="" disabled>Selecione un hospital</option>
+                                <option *ngFor="let hospital of hospitales" [value]="hospital.id">
+                                    {{hospital.name}}
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="text-center">
+                        <button type="submit" [disabled]="doctorForm.invalid"
+                            class="btn btn-success waves-effect waves-light m-r-10">Guardar</button>
+                        <a routerLink="/dashboard/doctors" class="btn btn-inverse waves-effect waves-light">Cancelar</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title text-center">Hospital asignado</h4>
+                <div *ngIf="hospitalSelecionado">
+                    <h4 class="card-subtitle text-center">{{hospitalSelecionado.name}}</h4>
+                    <div class="text-center mb-3">
+                        <!-- <pre>{{hospitalSelecionado|json}}</pre> -->
+                        <img width="256px" [src]="hospitalSelecionado.image! | image:'hospitales'"
+                            [alt]="hospitalSelecionado.name" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

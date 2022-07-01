@@ -22,6 +22,11 @@ a {
     border-radius: 100%;
 }
 
+.doctor-picture {
+    width: 128px;
+    border-radius: 100%;
+}
+
 #fondo-modal {
     top: 0px;
     left: 0px;
