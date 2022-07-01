@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 import Swal from 'sweetalert2';
 
@@ -22,7 +22,7 @@ import { ImageModalService } from 'src/app/services/image-modal.service';
 })
 export class DoctorComponent implements OnInit, OnDestroy {
 
-  public id: string = '';
+  private id: string = '';
 
   public hospitales: Hospital[] = [];
   public hospitalSelecionado!: Hospital;
@@ -35,8 +35,9 @@ export class DoctorComponent implements OnInit, OnDestroy {
   private subscriptions: Subscription[] = [];
 
   constructor(
-    private route: ActivatedRoute,
+    private router: Router,
     private fb: FormBuilder,
+    private route: ActivatedRoute,
     private ds: DoctorService,
     private hs: HospitalService,
     private ims: ImageModalService,
@@ -45,30 +46,38 @@ export class DoctorComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.cargarHospitales();
 
-    const param = this.route.snapshot.paramMap.get('id')!;
-    if (param != 'new') this.id = param;
-
-    if (this.id) {
-      this.cargarDoctor();
-
-      const sub = this.ims.imgChange
-        .pipe(delay(500))
-        .subscribe(() => this.cargarDoctor());
-
-      this.subscriptions.push(sub);
-    }
+    // const param = this.route.snapshot.paramMap.get('id')!;
+    this.cargarParametrosDeRuta();
   }
 
   ngOnDestroy(): void {
     this.subscriptions.forEach(sub => sub.unsubscribe());
   }
 
-  private cargarDoctor(): void {
-    const sub = this.ds.leerDoctor(this.id)
+  private cargarParametrosDeRuta(): void {
+    const sub = this.route.params
+      .subscribe(({ id }) => {
+        this.id = (id != 'new') ? id : '';
+        console.warn(this.id);
+        if (!!this.id) {
+          this.cargarDoctor(this.id);
+
+          const sub = this.ims.imgChange
+            .pipe(delay(500))
+            .subscribe(() => this.cargarDoctor(this.id));
+
+          this.subscriptions.push(sub);
+        }
+      });
+    this.subscriptions.push(sub);
+  }
+
+  private cargarDoctor(id: string): void {
+    const sub = this.ds.leerDoctor(id)
       .subscribe(response => {
         this.doctor = response;
         const id = this.doctor?.hospital?.id;
-        this.doctorForm.setValue({
+        this.doctorForm.patchValue({
           name: this.doctor.name,
           hospital: id
         });
@@ -104,18 +113,22 @@ export class DoctorComponent implements OnInit, OnDestroy {
   public onSubmit(): void {
     if (this.doctorForm.invalid) return;
     const { name, hospital } = this.doctorForm.value;
-    if (this.id) {
+    if (!!this.id) {
       const sub = this.ds.actualizarDoctor(this.id, name, hospital)
         .subscribe(response => {
           console.log(response);
-          Swal.fire('¡Guardado!', `Se guardo al doctor: ${name}`, 'success');
+          this.doctor = response;
+          Swal.fire('¡Actualizado!', 'Doctor actualizado', 'success');
+          // this.router.navigateByUrl('/dashboard/doctors');
         });
       this.subscriptions.push(sub);
     } else {
       const sub = this.ds.crearDoctor(name, hospital)
         .subscribe(response => {
           console.log(response);
-          Swal.fire('¡Actualizado!', 'Doctor actualizado', 'success');
+          this.doctor = response;
+          Swal.fire('¡Guardado!', `Se guardo al doctor: ${name}`, 'success');
+          this.router.navigate(['/dashboard/doctor', this.doctor.id]);
         });
       this.subscriptions.push(sub);
     }

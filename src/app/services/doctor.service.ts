@@ -17,8 +17,9 @@ export class DoctorService {
 
   constructor(private http: HttpClient) { }
 
-  public crearDoctor(name: string, hospital: string): Observable<any> {
-    return this.http.post(this.url, { name, hospital }, { headers: this.headers });
+  public crearDoctor(name: string, hospital: string): Observable<Doctor> {
+    return this.http.post(this.url, { name, hospital }, { headers: this.headers })
+      .pipe(map((response: any) => response.doctor));
   }
 
   public leerDoctor(uid: string): Observable<Doctor> {
@@ -31,8 +32,9 @@ export class DoctorService {
       );
   }
 
-  public actualizarDoctor(uid: string, name: string, hospital: string) {
-    return this.http.put(`${this.url}/${uid}`, { name, hospital }, { headers: this.headers });
+  public actualizarDoctor(uid: string, name: string, hospital: string): Observable<Doctor> {
+    return this.http.put(`${this.url}/${uid}`, { name, hospital }, { headers: this.headers })
+      .pipe(map((response: any) => response.doctor));
   }
 
   public eliminarDoctor(uid: string) {
