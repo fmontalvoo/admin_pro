@@ -1,0 +1,106 @@
+<div class="row animated fadeIn">
+    <div class="col-4">
+        <div class="card">
+            <div class="card-body">
+                <h3 class="text-center">Usuarios</h3>
+
+                <div *ngIf="usuarios.length === 0" class="alert alert-info">
+                    <p class="mb-0">
+                        No hay usuarios que coincidan con el termino de busqueda.
+                    </p>
+                </div>
+
+                <div *ngIf="usuarios.length > 0" class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th class="w100">Avatar</th>
+                                <th>Nombre</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let usuario of usuarios">
+                                <td class="text-center">
+                                    <img class="avatar-picture pointer" [src]="usuario.image! | image:'usuarios'"
+                                        [alt]="usuario.name" />
+                                </td>
+                                <td>{{usuario.name}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="col-4">
+        <div class="card">
+            <div class="card-body">
+                <h3 class="text-center">Doctores</h3>
+
+                <div *ngIf="doctores.length === 0" class="alert alert-info">
+                    <p class="mb-0">
+                        No hay doctores que coincidan con el termino de busqueda.
+                    </p>
+                </div>
+
+                <div *ngIf="doctores.length > 0" class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th class="w100">Avatar</th>
+                                <th>Nombre</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let doctor of doctores">
+                                <td class="text-center">
+                                    <img class="avatar-picture pointer" [src]="doctor.image! | image:'doctores'"
+                                        [alt]="doctor.name" />
+                                </td>
+                                <td>{{doctor.name}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="col-4">
+        <div class="card">
+            <div class="card-body">
+                <h3 class="text-center">Hospitales</h3>
+
+                <div *ngIf="hospitales.length === 0" class="alert alert-info">
+                    <p class="mb-0">
+                        No hay hospitales que coincidan con el termino de busqueda.
+                    </p>
+                </div>
+
+                <div *ngIf="hospitales.length > 0" class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th class="w100">Avatar</th>
+                                <th>Nombre</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let hospital of hospitales">
+                                <td class="text-center">
+                                    <img class="avatar-picture pointer" [src]="hospital.image! | image:'hospitales'"
+                                        [alt]="hospital.name" />
+                                </td>
+                                <td>{{hospital.name}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>

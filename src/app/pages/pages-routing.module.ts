@@ -17,6 +17,7 @@ import { UsersComponent } from './maintenances/users/users.component';
 import { DoctorComponent } from './maintenances/doctors/doctor.component';
 import { DoctorsComponent } from './maintenances/doctors/doctors.component';
 import { HospitalsComponent } from './maintenances/hospitals/hospitals.component';
+import { BusquedasComponent } from './busquedas/busquedas.component';
 
 const routes: Routes = [
   {
@@ -79,6 +80,12 @@ const routes: Routes = [
         path: 'hospitals',
         data: { title: 'Mantenimiento Hospitales' },
         component: HospitalsComponent,
+      },
+      // Busquedas
+      {
+        path: 'search/:query',
+        data: { title: 'Busquedas' },
+        component: BusquedasComponent,
       },
     ]
   },

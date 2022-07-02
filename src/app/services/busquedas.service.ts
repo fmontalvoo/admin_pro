@@ -57,6 +57,11 @@ export class BusquedasService {
       );
   }
 
+  public busquedaGeneral(query: string) { 
+    return this.http.get<Array<any>>(`${this.url}?q=${query}`,
+    { headers: this.headers });
+  }
+
   private get headers() {
     return new HttpHeaders({
       'x-token': this._token!

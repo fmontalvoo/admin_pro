@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 
 import { Usuario } from 'src/app/models/usuario.model';
 
@@ -14,20 +15,21 @@ export class HeaderComponent {
 
   public usuario!: Usuario;
 
-  constructor(private as: AuthService) {
+  constructor(private as: AuthService, private router: Router) {
     this.usuario = as.usuario;
   }
 
   public submit(event: any) {
     event.preventDefault();
-    let query: string = '';
     const data = event.target;
     for (let i = 0; i < data.elements.length; i++) {
       const element = data.elements[i];
-      if (element.name === 'txtBusqueda')
-        query = element.value;
+      if (element.name === 'txtBusqueda') {
+        const query = element.value;
+        if (!!query)
+          this.router.navigate(['/dashboard', 'search', query]);
+      }
     }
-    console.warn('query: ', query);
   }
 
   public logout(): void {
