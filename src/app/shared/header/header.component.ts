@@ -18,6 +18,18 @@ export class HeaderComponent {
     this.usuario = as.usuario;
   }
 
+  public submit(event: any) {
+    event.preventDefault();
+    let query: string = '';
+    const data = event.target;
+    for (let i = 0; i < data.elements.length; i++) {
+      const element = data.elements[i];
+      if (element.name === 'txtBusqueda')
+        query = element.value;
+    }
+    console.warn('query: ', query);
+  }
+
   public logout(): void {
     location.href = '/';
     this.as.logout();
