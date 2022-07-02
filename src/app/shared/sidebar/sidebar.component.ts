@@ -13,11 +13,9 @@ import { SidebarService } from 'src/app/services/sidebar.service';
 })
 export class SidebarComponent {
 
-  public menu: any[];
   public usuario!: Usuario;
 
-  constructor(private as: AuthService, private ss: SidebarService) {
-    this.menu = ss.menu;
+  constructor(private as: AuthService, public ss: SidebarService) {
     this.usuario = as.usuario;
   }
 

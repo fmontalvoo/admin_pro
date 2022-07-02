@@ -21,11 +21,15 @@ export class AuthService {
 
   constructor(private http: HttpClient, private auth: AngularFireAuth) { }
 
+  public get role(): 'ADMIN_ROLE' | 'USER_ROLE' {
+    return this.usuario.role ?? 'USER_ROLE';
+  }
+
   public login(email: string, password: string): Observable<any> {
     return this.http.post(`${this.url}/login`, { email, password })
       .pipe(
         tap((response: any) =>
-          localStorage.setItem('accessToken', response['token'])
+          this.saveLocalData(response['token'], response['menu'])
         )
       );
   }
@@ -40,9 +44,9 @@ export class AuthService {
   private loginWithGoogleJWT(token: string): Observable<any> {
     return this.http.post(`${this.url}/login/google`, { token })
       .pipe(
-        tap((response: any) => {
-          localStorage.setItem('accessToken', response['token']);
-        })
+        tap((response: any) =>
+          this.saveLocalData(response['token'], response['menu'])
+        )
       );
   }
 
@@ -59,7 +63,7 @@ export class AuthService {
           map((response: any) => {
             const { uid, name, email, image, role, google } = response['usuario']
             this.usuario = new Usuario(name, email, '', uid, role, image, google);
-            localStorage.setItem('accessToken', response['token']);
+            this.saveLocalData(response['token'], response['menu']);
             return true;
           }),
           catchError(() => of(false))
@@ -70,10 +74,18 @@ export class AuthService {
   }
 
   public async logout(): Promise<void> {
+    localStorage.removeItem('menu');
     localStorage.removeItem('accessToken');
+
     const user = await this.auth.currentUser;
+
     if (user)
       await this.auth.signOut();
+  }
+
+  private saveLocalData(token: string, menu: string): void {
+    localStorage.setItem('accessToken', token);
+    localStorage.setItem('menu', JSON.stringify(menu));
   }
 
 }
